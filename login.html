@@ -17,12 +17,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
+
 <body>
-    
+
+    <main class="max-w-[520px] p-8 shadow-lg mx-auto my-[78.5px] rounded-lg">
+        <div class="flex justify-center">
+            <img class="w-[100px] h-[100px]" src="assets/github-logo.png" alt="">
+        </div>
+        <h1 class="text-2xl text-center font-semibold mt-6">GitHub Issues Tracker</h1>
+        <p class="text-[#64748B] text-center">Sign in to manage your issues</p>
+
+        <div class="flex justify-center mt-6">
+            <div>
+                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-[456px] border p-4">
+                    <label class="label text-[#1F2937] font-medium">Username</label>
+                    <input id="input-username" type="text" class="input w-full" placeholder="Enter Username" />
+                    <label id="username-label" class="text-primary font-semibold" for="">Default: admin</label>
+
+                    <label class="label text-[#1F2937] font-medium mt-4">Password</label>
+                    <input id="input-password" type="password" class="input w-full" placeholder="Enter Password" />
+                    <label id="password-label" class="text-primary font-semibold" for="">Default: admin123</label>
+
+                    <button id="btn-signIn" class="btn btn-primary rounded-md mt-4">Sign In</button>
+
+                    <p class="text-center mt-6 text-[#1F2937]">OR</p>
+                    <div class="text-center mt-5">
+                        <h1 class="text-[#64748B]">Demo Credentials:</h1>
+                        <h1 class="font-semibold mt-6">Username: <span class="font-normal">admin</span></h1>
+                        <h1 class="font-semibold">Password: <span class="font-normal">admin123</span></h1>
+                    </div>
+
+                </fieldset>
+            </div>
+        </div>
+    </main>
+
 
     <script src="JS/login.js"></script>
 </body>
