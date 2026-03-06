@@ -1,5 +1,15 @@
 *{
-    margin: 0px;
-    padding: 0px;
     font-family: "Geist", sans-serif;
+}
+.search-box{
+    position: relative;
+}
+.search-box i{
+    position: absolute;
+    left: 10px;
+    top: 30%;
+    z-index: 2;
+}
+.badge-high{
+    
 }
