@@ -1,16 +1,20 @@
+const openContainer=document.getElementById('open-container');
+const closeContainer=document.getElementById('closed-container');
+const allContainer=document.getElementById('issues-container');
+
 const loadAllIssues = () => {
     fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
         .then(res => res.json())
-        .then(issues => displayAllIssues(issues.data))
+        .then(issues => {
+            displayAllIssues(issues.data);
+        })
 }
 loadAllIssues();
 
 const displayAllIssues = (issues) => {
-    const issuesContainer = document.getElementById('issues-container');
-    issuesContainer.innerHTML = "";
-    const totalIssue=document.getElementById('total-issues');
-    totalIssue.innerText=`${issues.length} Issues`;
-    issues.forEach(issue => {
+    allContainer.innerHTML = "";
+    // console.log(issues)
+    issues.forEach((issue)=>{
         const issueCard = document.createElement('div');
         issueCard.innerHTML = `
             <div id="card-${issue.id}" class="card md:p-4 p-2 md:max-w-[256.5px] max-w-full shadow-2xl border-t-4 ${issue.status==='open' ? `border-green-500` : `border-violet-500`} mx-auto rounded-lg">
@@ -28,7 +32,7 @@ const displayAllIssues = (issues) => {
                     </div>
                     <h4 class="text-sm font-semibold mt-3">${issue.title}</h4>
                     <p class="mt-3 text-[#64748B] text-sm">${issue.description}</p>
-                    <div id="issue-labels" class="flex gap-3 items-center mt-3">
+                    <div class="flex gap-3 items-center mt-3">
                         ${displayLabels(issue.labels)}
                     </div>
                     <hr class="mt-4 opacity-20">
@@ -36,16 +40,20 @@ const displayAllIssues = (issues) => {
                     <p class="mt-3 text-[#64748B] text-sm">${issue.createdAt.slice(0,10)}</p>
                 </div>
         `
-        issuesContainer.appendChild(issueCard);
+        allContainer.appendChild(issueCard);
         document.getElementById(`card-${issue.id}`).addEventListener('click',()=>{
             displayIssueModal(issue);
         })
-    })
-}
+    });
+    const total=allContainer.querySelectorAll('.card');
+    const totalIssue=document.getElementById('total-issues');
+    totalIssue.innerText=`${total.length} Issues`;
+    loadOpenCloseIssues();
+} 
 
 const displayLabels=(issueLabels)=>{
    let labelsHTML = "";
-    issueLabels.forEach(label => {
+    for (const label of issueLabels) {
         if (label === "bug") {
             labelsHTML += `
             <div class="px-3 py-1 bg-red-100 rounded-xl">
@@ -61,7 +69,7 @@ const displayLabels=(issueLabels)=>{
         else if(label==='enhancement'){
             labelsHTML+=`
             <div class="px-3 py-1 bg-green-200 rounded-xl">
-                <h3 class="text-green-600-600 text-sm font-normal">ENHANCEMENT</h3>
+                <h3 class="text-green-600 text-sm font-normal">ENHANCEMENT</h3>
             </div>`
         }
         else if(label==='good first issue'){
@@ -76,7 +84,7 @@ const displayLabels=(issueLabels)=>{
                 <h3 class="text-slate-700 text-sm font-normal">Documentation</h3>
             </div>`
         }
-    });
+    };
     return labelsHTML;
 }
 
@@ -86,7 +94,7 @@ const displayIssueModal=(card)=>{
     modalBox.innerHTML="";
     modalBox.innerHTML=`
         <h1 class="text-xl font-semibold">${card.title}</h1>
-        <div class="mt-3 flex-col md:flex-row gap-3 justify-start items-center">
+        <div class="mt-3 flex flex-col md:flex-row gap-3 justify-start md:items-center">
             ${card.status==='open' 
                 ? `<p class="bg-green-300 px-1 w-17 rounded-lg text-center">Opened</p>` 
                 : `<p class="bg-violet-300 px-1 w-17 rounded-lg text-center">Closed</p>`
@@ -117,4 +125,39 @@ const displayIssueModal=(card)=>{
         </div>
     `    
     modal.showModal();
+}
+
+const loadOpenCloseIssues=()=>{
+    const cards=document.querySelectorAll('.card');
+    cards.forEach(card=>{
+        if(card.classList.contains('border-green-500')){
+             const clone = card.cloneNode(true);
+             openContainer.appendChild(clone);
+        }
+        else if(card.classList.contains('border-violet-500')){
+            const clone = card.cloneNode(true);
+            closeContainer.appendChild(clone);
+        }
+    })
+}
+
+const displayOpenIssues=()=>{
+    allContainer.classList.add('hidden');
+    closeContainer.classList.add('hidden');
+    openContainer.classList.remove('hidden');
+    openContainer.classList.add('grid');
+}
+
+const displayCloseIssues=()=>{
+    allContainer.classList.add('hidden');
+    openContainer.classList.add('hidden');
+    closeContainer.classList.remove('hidden');
+    closeContainer.classList.add('grid');
+}
+
+const displayIssues=()=>{
+    openContainer.classList.add('hidden');
+    closeContainer.classList.add('hidden');
+    allContainer.classList.remove('hidden');
+    allContainer.classList.add('grid');
 }

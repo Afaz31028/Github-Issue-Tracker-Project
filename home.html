@@ -40,9 +40,9 @@
     </header>
     <main class="max-w-11/12 md:max-w-[1110px] mx-auto mt-15">
         <section class="p-6 shadow-lg flex gap-3 font-medium rounded-md">
-            <button class="btn w-[100px] bg-primary text-white px-3 py-2 text-center rounded-md">All</button>
-            <button class="btn w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Open</button>
-            <button class="btn w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Closed</button>
+            <button onclick="displayIssues()" class="btn w-[100px] bg-primary text-white px-3 py-2 text-center rounded-md">All</button>
+            <button onclick="displayOpenIssues()" class="btn w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Open</button>
+            <button onclick="displayCloseIssues()" class="btn w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Closed</button>
         </section>
         <section class="p-6 mt-4 shadow-lg rounded-lg">
             <div class="md:flex md:flex-row flex-col gap-3 md:justify-between md:items-center ">
@@ -69,9 +69,14 @@
             <hr class="my-6 text-gray-300">
             <div id="issues-container" class="cards grid grid-cols-1 md:grid-cols-4 gap-4">
             </div>
+            <div id="open-container" class="cards hidden grid-cols-1 md:grid-cols-4 gap-4">
+                
+            </div>
+            <div id="closed-container" class="cards hidden grid-cols-1 md:grid-cols-4 gap-4">
+            </div>
         </section>
         <section class="mx-auto">
-            <dialog id="my_modal" class="modal m-5 md:m-0 modal-bottom sm:modal-middle">
+            <dialog id="my_modal" class="modal mx-auto w-11/12 md:w-full modal-bottom sm:modal-middle">
                 <div class="modal-box">
                     <div id="modal-content" class="p-5"></div>
                     <div class="modal-action">
