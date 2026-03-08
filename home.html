@@ -26,23 +26,29 @@
 
 <body>
     <header class="w-11/12 mx-auto">
-        <div class="navbar flex-col gap-5 md:flex md:flex-row md:justify-between md:items-center py-4 bg-base-100 shadow-sm">
+        <div
+            class="navbar flex-col gap-5 md:flex md:flex-row md:justify-between md:items-center py-4 bg-base-100 shadow-sm">
             <div class="flex justify-center items-center gap-5">
                 <img class="w-10 h-10" src="assets/github-logo.png" alt="">
                 <h1 class="text-2xl font-semibold">GitHub Issue Tracker</h1>
             </div>
             <div class="search-box flex gap-2">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input id="search-box" type="text" placeholder="Search issus...." class="input px-10 input-bordered w-50 md:w-auto" />
-                <button id="search-btn" onclick="searchSection()" class="btn bg-primary rounded-md text-white">Search</button>
+                <input id="search-box" type="text" placeholder="Search issus...."
+                    class="input px-10 input-bordered w-50 md:w-auto" />
+                <button id="search-btn" onclick="searchSection()"
+                    class="btn bg-primary rounded-md text-white">Search</button>
             </div>
         </div>
     </header>
     <main class="max-w-11/12 md:max-w-[1110px] mx-auto mt-15">
         <section class="p-6 shadow-lg flex gap-3 font-medium rounded-md">
-            <button onclick="displayIssues()" class="btn btn-all w-[100px] bg-primary text-white px-3 py-2 text-center rounded-md">All</button>
-            <button onclick="displayOpenIssues()" class="btn btn-open w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Open</button>
-            <button onclick="displayCloseIssues()" class="btn btn-close w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Closed</button>
+            <button onclick="displayIssues()"
+                class="btn btn-all w-[100px] bg-primary text-white px-3 py-2 text-center rounded-md">All</button>
+            <button onclick="displayOpenIssues()"
+                class="btn btn-open w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Open</button>
+            <button onclick="displayCloseIssues()"
+                class="btn btn-close w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Closed</button>
         </section>
         <section class="p-6 mt-4 shadow-lg rounded-lg">
             <div class="md:flex md:flex-row flex-col gap-3 md:justify-between md:items-center ">
@@ -67,10 +73,13 @@
                 </div>
             </div>
             <hr class="my-6 text-gray-300">
+            <section id="spinner" class="flex justify-center items-center my-6">
+                <span class="loading loading-bars loading-xl"></span>
+            </section>
             <div id="issues-container" class="cards grid grid-cols-1 md:grid-cols-4 gap-4">
             </div>
             <div id="open-container" class="cards hidden grid-cols-1 md:grid-cols-4 gap-4">
-                
+
             </div>
             <div id="closed-container" class="cards hidden grid-cols-1 md:grid-cols-4 gap-4">
             </div>

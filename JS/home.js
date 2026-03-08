@@ -7,7 +7,7 @@ const btnClose = document.querySelector('.btn-close');
 const totalIssue = document.getElementById('total-issues');
 const btns = [btnAll, btnOpen, btnClose];
 
-let curState='all';
+let curState = 'all';
 
 const loadAllIssues = () => {
     fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
@@ -19,6 +19,7 @@ const loadAllIssues = () => {
 loadAllIssues();
 const displayAllIssues = (issues) => {
     allContainer.innerHTML = "";
+    manageSpinner(true);
     issues.forEach((issue) => {
         const issueCard = document.createElement('div');
         issueCard.innerHTML = `
@@ -51,9 +52,20 @@ const displayAllIssues = (issues) => {
             loadIssueModal(issue.id);
         })
     });
-    const total = allContainer.querySelectorAll('.card');
-    totalIssue.innerText = `${total.length} Issues`;
     loadOpenCloseIssues();
+    manageSpinner(false);
+    const totalClose = allContainer.querySelectorAll('.card');
+    totalIssue.innerText = `${totalClose.length} Issues`
+
+    if (curState !== 'all') {
+        displayIssues();
+    }
+    if (curState ==='open') {
+        displayOpenIssues();
+    }
+    else if (curState === 'close') {
+        displayCloseIssues();
+    }
 }
 const displayLabels = (issueLabels) => {
     let labelsHTML = "";
@@ -135,6 +147,8 @@ const displayIssueModal = (card) => {
     modal.showModal();
 }
 const loadOpenCloseIssues = () => {
+    openContainer.innerHTML = "";
+    closeContainer.innerHTML = "";
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         if (card.classList.contains('border-green-500')) {
@@ -155,7 +169,7 @@ const displayOpenIssues = () => {
     inactive();
     btnOpen.classList.remove('text-[#64748B]');
     btnOpen.classList.add('bg-primary', 'text-white');
-    curState='open';
+    curState = 'open';
 
     const totalOpen = openContainer.querySelectorAll('.card');
     totalIssue.innerText = `${totalOpen.length} Issues`;
@@ -169,7 +183,7 @@ const displayCloseIssues = () => {
     btnClose.classList.remove('text-[#64748B]');
     btnClose.classList.add('bg-primary', 'text-white');
 
-    curState='closed';
+    curState = 'closed';
     const totalClose = closeContainer.querySelectorAll('.card');
     totalIssue.innerText = `${totalClose.length} Issues`
 }
@@ -188,12 +202,14 @@ const displayIssues = () => {
 document.getElementById('open-container').addEventListener('click', (e) => {
     const box = e.target.closest('.card');
     const targetCard = box.querySelectorAll('p')[1].innerText;
-    loadIssueModal(targetCard[1]);
+    const id = targetCard.split('#')[1].split(' ')[0];
+    loadIssueModal(id);
 })
 document.getElementById('closed-container').addEventListener('click', (e) => {
     const box = e.target.closest('.card');
     const targetCard = box.querySelectorAll('p')[1].innerText;
-    loadIssueModal(targetCard[1]);
+    const id = targetCard.split('#')[1].split(' ')[0];
+    loadIssueModal(id);
 })
 const inactive = () => {
     btns.forEach(btn => {
@@ -205,18 +221,27 @@ const inactive = () => {
 const searchSection = () => {
     const searchText = document.getElementById('search-box');
     const searchValue = searchText.value.trim().toLowerCase();
-
-    if(searchValue===""){
+    if (searchValue === "") {
         loadAllIssues();
         return;
     }
     fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`)
-    .then(res => res.json())
-    .then(text => {
-        const allWords = text.data;
-        const filteredWords = allWords.filter(item => 
-            item.title.toLowerCase().includes(searchValue)
-        );
-        displayAllIssues(filteredWords);
-    })
+        .then(res => res.json())
+        .then(text => {
+            const allWords = text.data;
+            const filteredWords = allWords.filter(item =>
+                item.title.toLowerCase().includes(searchValue)
+            );
+            displayAllIssues(filteredWords);
+        })
+}
+const manageSpinner=(status)=>{
+    if(status){
+        document.getElementById('spinner').classList.remove('hidden');
+        document.getElementById('issues-container').classList.add('hidden');
+    }
+    else{
+        document.getElementById('spinner').classList.add('hidden');
+        document.getElementById('issues-container').classList.remove('hidden');
+    } 
 }
