@@ -1,6 +1,10 @@
 const openContainer=document.getElementById('open-container');
 const closeContainer=document.getElementById('closed-container');
 const allContainer=document.getElementById('issues-container');
+const btnAll=document.querySelector('.btn-all');
+const btnOpen=document.querySelector('.btn-open');
+const btnClose=document.querySelector('.btn-close');
+const totalIssue=document.getElementById('total-issues');
 
 const loadAllIssues = () => {
     fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
@@ -32,7 +36,7 @@ const displayAllIssues = (issues) => {
                     </div>
                     <h4 class="text-sm font-semibold mt-3">${issue.title}</h4>
                     <p class="mt-3 text-[#64748B] text-sm">${issue.description}</p>
-                    <div class="flex gap-3 items-center mt-3">
+                    <div class="labels-container flex flex-wrap gap-3 items-center mt-3">
                         ${displayLabels(issue.labels)}
                     </div>
                     <hr class="mt-4 opacity-20">
@@ -46,7 +50,6 @@ const displayAllIssues = (issues) => {
         })
     });
     const total=allContainer.querySelectorAll('.card');
-    const totalIssue=document.getElementById('total-issues');
     totalIssue.innerText=`${total.length} Issues`;
     loadOpenCloseIssues();
 } 
@@ -54,34 +57,34 @@ const displayAllIssues = (issues) => {
 const displayLabels=(issueLabels)=>{
    let labelsHTML = "";
     for (const label of issueLabels) {
-        if (label === "bug") {
+        if (label.toLowerCase() === "bug") {
             labelsHTML += `
             <div class="px-3 py-1 bg-red-100 rounded-xl">
                 <h3 class="text-red-600 text-sm font-normal">BUG</h3>
             </div>`
         } 
-        else if (label === "help wanted") {
+        else if (label.toLowerCase() === "help wanted") {
             labelsHTML += `
             <div class="px-3 py-1 bg-amber-100 rounded-xl">
                 <h3 class="text-amber-600 text-sm font-normal">HELP WANTED</h3>
             </div>`
         }
-        else if(label==='enhancement'){
+        else if(label.toLowerCase()==='enhancement'){
             labelsHTML+=`
             <div class="px-3 py-1 bg-green-200 rounded-xl">
                 <h3 class="text-green-600 text-sm font-normal">ENHANCEMENT</h3>
             </div>`
         }
-        else if(label==='good first issue'){
+        else if(label.toLowerCase()=== 'good first issue'){
             labelsHTML+=`
             <div class="px-3 py-1 bg-lime-200 rounded-xl">
-                <h3 class="text-lime-600 text-sm font-normal">GOOD FIRST..</h3>
+                <h3 class="text-lime-600 text-sm font-normal">GOOD FIRST ISSUE</h3>
             </div>`
         }
         else{
             labelsHTML+=`
             <div class="px-3 py-1 bg-slate-300 rounded-xl">
-                <h3 class="text-slate-700 text-sm font-normal">Documentation</h3>
+                <h3 class="text-slate-700 text-sm font-normal">DOCUMENTATION</h3>
             </div>`
         }
     };
@@ -99,7 +102,7 @@ const displayIssueModal=(card)=>{
                 ? `<p class="bg-green-300 px-1 w-17 rounded-lg text-center">Opened</p>` 
                 : `<p class="bg-violet-300 px-1 w-17 rounded-lg text-center">Closed</p>`
             }
-            <p>opended by ${card.author}</p>
+            <p>opened by ${card.author}</p>
             <p>${card.createdAt.slice(0,10)}</p>
         </div>
         <div class="flex gap-3 mt-5">
@@ -146,13 +149,31 @@ const displayOpenIssues=()=>{
     closeContainer.classList.add('hidden');
     openContainer.classList.remove('hidden');
     openContainer.classList.add('grid');
-}
+    btnAll.classList.remove('text-white','bg-primary')
+    btnAll.classList.add('text-[#64748B]');
+    btnClose.classList.remove('text-white','bg-primary')
+    btnClose.classList.add('text-[#64748B]');
+    btnOpen.classList.remove('text-[#64748B]');
+    btnOpen.classList.add('bg-primary','text-white');
+
+    const totalOpen=openContainer.querySelectorAll('.card');
+    totalIssue.innerText=`${totalOpen.length} Issues`;
+}   
 
 const displayCloseIssues=()=>{
     allContainer.classList.add('hidden');
     openContainer.classList.add('hidden');
     closeContainer.classList.remove('hidden');
     closeContainer.classList.add('grid');
+    btnAll.classList.remove('text-white','bg-primary')
+    btnAll.classList.add('text-[#64748B]');
+    btnOpen.classList.remove('text-white','bg-primary')
+    btnOpen.classList.add('text-[#64748B]');
+    btnClose.classList.remove('text-[#64748B]');
+    btnClose.classList.add('bg-primary','text-white');
+
+    const totalClose=closeContainer.querySelectorAll('.card');
+    totalIssue.innerText=`${totalClose.length} Issues`
 }
 
 const displayIssues=()=>{
@@ -160,4 +181,70 @@ const displayIssues=()=>{
     closeContainer.classList.add('hidden');
     allContainer.classList.remove('hidden');
     allContainer.classList.add('grid');
+    btnOpen.classList.remove('text-white','bg-primary')
+    btnOpen.classList.add('text-[#64748B]');
+    btnClose.classList.remove('text-white','bg-primary')
+    btnClose.classList.add('text-[#64748B]');
+    btnAll.classList.remove('text-[#64748B]');
+    btnAll.classList.add('bg-primary','text-white');
+
+    const total=allContainer.querySelectorAll('.card');
+    totalIssue.innerText=`${total.length} Issues`
 }
+
+const displayModal=(title,des,author,date,status,prio,arr)=>{
+    const modalBox=document.getElementById('modal-content');
+    const modal=document.getElementById('my_modal');
+    modalBox.innerHTML="";
+    // console.log(title,des,author,date,status,prio,arr);
+    modalBox.innerHTML=`
+        <h1 class="text-xl font-semibold">${title}</h1>
+        <div class="mt-3 flex flex-col md:flex-row gap-3 justify-start md:items-center">
+            ${status==='open' 
+                ? `<p class="bg-green-300 px-1 w-17 rounded-lg text-center">Opened</p>` 
+                : `<p class="bg-violet-300 px-1 w-17 rounded-lg text-center">Closed</p>`
+            }
+            <p>opened by ${author.slice(3,25)}</p>
+            <p>${date}</p>
+        </div>
+        <div class="flex gap-3 mt-5">
+            ${displayLabels(arr)}
+        </div>
+        <p class="mt-4 text-[#64748B] text-md">${des}</p>
+        <div class="flex gap-35 mt-3 items-center">
+            <div>
+                <h5 class="text-[#64748B] text-md">Assignee:</h5>
+                <h5 class="text-lg font-semibold">${author.slice(3,25)}</h5>
+            </div>
+            <div>
+                <h5 class="mt-3 text-[#64748B] text-md">Priority:</h5>
+                <h5>
+                    ${prio === 'High'
+                            ? `<h5 class="bg-[#FEECEC] px-5 py-1 text-red-500 font-bold rounded-2xl">High</h5>`
+                            : prio=== 'Medium'
+                            ? `<h5 class="bg-amber-100 px-5 py-1 text-amber-500 font-bold rounded-2xl">Medium</h5>`
+                            : `<h5 class="bg-gray-300 px-5 py-1 text-gray-700 font-bold rounded-2xl">Low</h5>`
+                }
+                </h5>
+            </div>
+        </div>
+    `    
+    modal.showModal();
+}
+
+document.getElementById('open-container').addEventListener('click',(e)=>{
+    const box=e.target.closest('.card');
+    const title = box.querySelector('h4').innerText;
+    const description = box.querySelectorAll('p')[0].innerText;
+    const author=box.querySelectorAll('p')[1].innerText;
+    const date = box.querySelectorAll('p')[2].innerText;
+    const status='open';
+    const priority=box.querySelector('h5').innerText;
+
+    const labelsArray=[];
+    const labels = box.querySelectorAll('.labels-container h3');
+    labels.forEach(label => {
+        labelsArray.push(label.innerText)
+    });
+    displayModal(title,description,author,date,status,priority,labelsArray);
+})

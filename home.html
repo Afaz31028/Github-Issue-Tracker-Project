@@ -40,9 +40,9 @@
     </header>
     <main class="max-w-11/12 md:max-w-[1110px] mx-auto mt-15">
         <section class="p-6 shadow-lg flex gap-3 font-medium rounded-md">
-            <button onclick="displayIssues()" class="btn w-[100px] bg-primary text-white px-3 py-2 text-center rounded-md">All</button>
-            <button onclick="displayOpenIssues()" class="btn w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Open</button>
-            <button onclick="displayCloseIssues()" class="btn w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Closed</button>
+            <button onclick="displayIssues()" class="btn btn-all w-[100px] bg-primary text-white px-3 py-2 text-center rounded-md">All</button>
+            <button onclick="displayOpenIssues()" class="btn btn-open w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Open</button>
+            <button onclick="displayCloseIssues()" class="btn btn-close w-[100px] px-3 py-2 text-[#64748B] text-center rounded-md">Closed</button>
         </section>
         <section class="p-6 mt-4 shadow-lg rounded-lg">
             <div class="md:flex md:flex-row flex-col gap-3 md:justify-between md:items-center ">
@@ -51,7 +51,7 @@
                         <img class="w-[50px] h-[50px]" src="assets/Aperture.png" alt="">
                     </div>
                     <div>
-                        <h4 id="total-issues" class="text-xl font-semibold">0 <span>Issues</span></h4>
+                        <h4 id="total-issues" class="text-xl font-semibold">0 Issues</h4>
                         <p class="text-[#64748B]">Track and manage your project issues</p>
                     </div>
                 </div>
