@@ -76,7 +76,7 @@ A modern, responsive web application that visually displays and manages GitHub-s
 
 ####Follow these steps to run GitHub Issue Tracker on your local machine:
 
-###1️⃣ Clone the Repository
+### 1️⃣ Clone the Repository
 - https://github.com/Afaz31028/Github-Issue-Tracker-Project.git
 
 ### 2️⃣ Navigate to Project Folder
